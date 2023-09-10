@@ -1,0 +1,44 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.board-container {
+  background: radial-gradient(#66bb6a, #006400);
+  min-height: 100vh;
+  min-width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#board {
+  width: 90vmin;
+  height: 80vmin;
+  border: 1rem solid black;
+  background: linear-gradient(to bottom, #5cef61, #98f398);
+
+  /* import css for the working of the snake game */
+  display: grid;
+  grid-template-rows: repeat(18, 1fr);
+  grid-template-columns: repeat(18, 1fr);
+}
+
+.snake-head {
+  background: linear-gradient(red, yellow);
+  border: .25vmin solid purple;
+  border-radius: 12px;
+  transform: scale(1.05);
+}
+
+.snake-body {
+  background-color: purple;
+  border: .25vmin solid white;
+  border-radius: 12px;
+}
+
+.food {
+  background: linear-gradient(red, purple);
+  border: .25vmin solid black;
+  border-radius: 5px;
+}
