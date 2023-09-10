@@ -2,16 +2,23 @@
 
 const maxGrid = 18;
 const minGrid = 0;
+const maxPointIncrement = 10;
+const maxSpeedIncrement = 0.2;
+const minFoodGrid = 2;
+const maxFoodGrid = 16;
 const initialPosition = { x: 13, y: 13 };
 const initialFoodPosition = { x: 13, y: 8 };
 const initialInputDirection = { x: 0, y: 0 };
-const framesSpeed = 5;
+const soundOnIcon = "🔊";
+const soundOffIcon = "🔈";
+let framesSpeed = 5;
 
 let snakeArr = [{ ...initialPosition }];
 let food = { ...initialFoodPosition };
 let inputDirection = { ...initialInputDirection };
 let lastPaintTime = 0;
 let score = 0;
+let playMusic = false;
 
 const musicSound = new Audio("assets/sounds/music.mp3");
 const moveSound = new Audio("assets/sounds/move.mp3");
@@ -20,12 +27,40 @@ const gameOverSound = new Audio("assets/sounds/gameover.mp3");
 
 // * HTML elements
 const board = document.querySelector("#board");
-console.log(board);
+const btnReset = document.querySelector("#btn-reset");
+const btnSound = document.querySelector("#btn-sound");
+const soundIcon = btnSound.querySelector("#sound-icon");
+const scoreBoard = document.querySelector("#score-board");
+const scorePoints = scoreBoard.querySelector("#score-points");
 
 // * Util Functions
 function randomFoodLocation(a, b) {
-  return Math.round(Math.random() * (a + (b - a)));
+  return Math.floor(Math.random() * (b - a + 1)) + a;
 }
+
+function reset() {
+  musicSound.pause();
+  snakeArr = [{ ...initialPosition }];
+  food = { ...initialFoodPosition };
+  inputDirection = { ...initialInputDirection };
+  score = 0;
+}
+
+btnReset.addEventListener("click", () => {
+  reset();
+});
+
+btnSound.addEventListener("click", () => {
+  playMusic = !playMusic;
+
+  if (playMusic) {
+    soundIcon.innerHTML = soundOnIcon;
+    musicSound.play();
+  } else {
+    soundIcon.innerHTML = soundOffIcon;
+    musicSound.pause();
+  }
+});
 
 // * Game Functions
 function main(currentTime) {
@@ -55,7 +90,6 @@ function isCollide(snakeArr) {
 }
 
 function gameEngine() {
-  console.log("game engine running");
   if (isCollide(snakeArr)) {
     musicSound.pause();
     gameOverSound.play();
@@ -63,24 +97,21 @@ function gameEngine() {
     alert("GAME OVER...!, click on any button");
 
     // Rest the snake size and position
-    snakeArr = [{ ...initialPosition }];
-    food = { ...initialFoodPosition };
-    inputDirection = { ...initialInputDirection };
-
-    score = 0;
+    reset();
   }
 
-  // 1. a.Increment the size of snake if collides with food
+  // 1. a.Increment the size of snake and score if it collides with food
   if (snakeArr[0].x === food.x && snakeArr[0].y === food.y) {
-    foodSound.play();
     snakeArr.unshift({ x: food.x, y: food.y });
-    food.x = randomFoodLocation(2, 16);
-    food.y = randomFoodLocation(2, 16);
+    foodSound.play();
+    score += maxPointIncrement;
+    framesSpeed += maxSpeedIncrement;
+    food.x = randomFoodLocation(minFoodGrid, maxFoodGrid);
+    food.y = randomFoodLocation(minFoodGrid, maxFoodGrid);
   }
 
   // b.move the snake
   for (let i = snakeArr.length - 2; i >= 0; i--) {
-    console.log(i);
     snakeArr[i + 1] = { ...snakeArr[i] };
   }
 
@@ -111,6 +142,9 @@ function gameEngine() {
   foodElement.classList.add("food");
 
   board.appendChild(foodElement);
+
+  // 4. Render score
+  scorePoints.textContent = score;
 }
 
 // * Game Logic
@@ -141,6 +175,10 @@ window.addEventListener("keyup", (e) => {
     case "ArrowRight":
       inputDirection.x = 1;
       inputDirection.y = 0;
+      break;
+
+    case "Escape":
+      reset();
       break;
 
     default:

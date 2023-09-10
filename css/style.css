@@ -1,6 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
 * {
   padding: 0;
   margin: 0;
+  font-family: 'Press Start 2P', cursive;
 }
 
 .board-container {
@@ -8,14 +11,22 @@
   min-height: 100vh;
   min-width: 100vw;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 1.5rem;
+}
+
+.title {
+  font-size: 3em;
+  color: yellow;
+  text-shadow: 0 0 10px red;
 }
 
 #board {
   width: 90vmin;
-  height: 80vmin;
-  border: 1rem solid black;
+  height: 70vmin;
+  border: 1rem solid #3d0000;
   background: linear-gradient(to bottom, #5cef61, #98f398);
 
   /* import css for the working of the snake game */
@@ -24,16 +35,56 @@
   grid-template-columns: repeat(18, 1fr);
 }
 
+#score-board {
+  color: white;
+  font-size: 1em;
+  position: absolute;
+  right: 3%;
+  bottom: 20%;
+}
+
+#btn-sound {
+  position: absolute;
+  left: 2%;
+  top: 20%;
+  padding: .5rem;
+  border-radius: .25vmin;
+  cursor: pointer;
+  background-color: black;
+  color: white;
+}
+
+#btn-sound:hover {
+  background: rgb(63, 59, 59);
+  color: white;
+}
+
+#btn-reset {
+  position: absolute;
+  padding: 1rem;
+  right: 10%;
+  top: 25%;
+  background-color: yellow;
+  border-radius: 2rem;
+  outline: none;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+
+#btn-reset:hover {
+  background-color: gold;
+}
+
 .snake-head {
-  background: linear-gradient(red, yellow);
-  border: .25vmin solid purple;
+  background: linear-gradient(indigo, purple);
+  border: .25vmin solid indigo;
   border-radius: 12px;
   transform: scale(1.05);
 }
 
 .snake-body {
-  background-color: purple;
-  border: .25vmin solid white;
+  background: linear-gradient(purple, pink);
+  border: .25vmin solid purple;
   border-radius: 12px;
 }
 
