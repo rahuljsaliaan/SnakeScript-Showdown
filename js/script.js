@@ -44,6 +44,7 @@ function reset() {
   food = { ...initialFoodPosition };
   inputDirection = { ...initialInputDirection };
   score = 0;
+  framesSpeed = 5;
 }
 
 btnReset.addEventListener("click", () => {
